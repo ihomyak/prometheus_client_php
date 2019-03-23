@@ -5,6 +5,46 @@
 This library uses Redis or APCu to do the client side aggregation.
 If using Redis, we recommend to run a local Redis instance next to your PHP workers.
 
+# What has changed from the original library
+Added support for *work with any DB numbers* in Redis-storage.
+
+In original library all metrics saving in DB number 0 (default DB on connect to Redis).
+In current library you can set DB number in 'db' options in configuration, example
+```php
+$redis = new Prometheus\Storage\Redis([
+'host' => '127.0.0.1',
+'port' => 6379,
+'timeout' => 0.1,
+'read_timeout' => 10,
+'persistent_connections' => false,
+'password' => 'your_StronG_Password',
+'db' => '2', // this is a new options
+]);
+```
+
+
+## How using this fork in your project 
+Remove original library:
+```
+composer remove jimdo/prometheus_client_php
+```
+
+
+Add this code to your composer.json
+```
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ihomyak/prometheus_client_php"
+        }
+    ],
+```
+And install this fork by command:
+```
+composer require jimdo/prometheus_client_php:v0.9.5
+``` 
+
+
 ## How does it work?
 
 Usually PHP worker processes don't share any state.
